@@ -28,9 +28,19 @@ SSL 인증서: 클라이언트와 서버간의 통신을 제3자가 보증해주
 
 키
 ```
+대칭키: 동일한 키(password)로 암호화와 복호화를 진행
 $openssl enc -e -des3 -salt -in input.txt -out outtext.bin
 $openssl enc -d -des3 -in outtxt.bin -out input.txt
 
-대칭키: 동일한 키로 암호화와 복호화를 진행
 공개키(비대칭키): 
+  두개의 키를 가진다. 공개(public)키와 비공개(private)키
+  비공개 A키로 암호화 - 공개키 B로 복호화
+  공개키 B키로 암호화 - 비공개 A로 복호화
+$openssl genrsa -out private.pem 1024
+$cat private.pem
+
+$openssl rsa -in private.pem -out public.pem outform PEM -pubout
+$echo 'coding everybody' > file.txt
+$openssl rsautl -encrypt -inkey public.pem -pubin -in file.txt -out file.ssl
+$openssl rsautl -decrypt -inkey private.pem -in file.ssl -out decrypted.txt
 ```
