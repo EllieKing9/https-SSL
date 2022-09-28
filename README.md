@@ -44,3 +44,51 @@ $echo 'coding everybody' > file.txt
 $openssl rsautl -encrypt -inkey public.pem -pubin -in file.txt -out file.ssl
 $openssl rsautl -decrypt -inkey private.pem -in file.ssl -out decrypted.txt
 ```
+
+SSL
+```
+SSL 인증서
+- 서비스의 정보(인증서를 발급한 CA, 서비스의 도메인 등)
+- 서버 측 공개키
+
+브라우저는 CA 리스트와 CA별 공개키를 이미 가지고 있으며 (CA에서 제공된)
+
+실제 데이터 : 대칭키
+대칭키의 키 : 공개키
+```
+
+접속
+
+https://wan-blog.tistory.com/47
+```
+Client Hello
+1. 클라이언트가 서버에 접속하며 클라이언트 측에서 생성한 랜덤 데이터
+2. 클라이언트가 지원하는 암호화 방식들
+3. 세션 아이디 전송
+
+Server Hello
+4. 서버측에서 생성한 랜덤 데이터
+5. 서버가 선택한 클라이언트 암호화 방식
+6. 서버 인증서(공개키) 전송
+
+Client 
+7. 서버에서 받은 인증서가 CA에 의해서 발급된 것인지를 확인(CA 리스트 확인)
+8. CA 리스트에 없다면 경고 메세지
+9. CA의 공개키를 이용해서 인증서를 복호화
+10. 서버의 랜덤데이터와 클라이언트의 랜덤데이터를 조합하여 pre master secret라는 키(대칭키)를 생성하여 서버의 공개키를 이용해서 암호화하여 전송
+
+Server
+11. pre master secret 값을 서버의 비공개키로 복호화
+
+추 후, 대칭키(pre master secret 값)를 가지고 암호화하여 통신
+```
+
+인증서 발급
+```
+CA에서 제공 :
+서비스의 정보(인증서를 발급한 CA, 서비스의 도메인 등)과
+발급되는 서버의 공개키를 
+CA가 가지고 있는 비공개키(개인키)로 암호화하여 인증서를 만들어 제공
+
+
+```
