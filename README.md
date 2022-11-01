@@ -34,8 +34,8 @@ $openssl enc -d -des3 -in outtxt.bin -out input.txt
 
 공개키(비대칭키): 
   두개의 키를 가진다. 공개(public)키와 비공개(private)키
-  비공개 A키로 암호화 - 공개키 B로 복호화
-  공개키 B키로 암호화 - 비공개 A로 복호화
+  공개키 B로 복호화   <- 비공개 A키로 암호화
+  공개키 B키로 암호화 -> 비공개 A로 복호화
 $openssl genrsa -out private.pem 1024
 $cat private.pem
 
